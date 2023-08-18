@@ -3,6 +3,7 @@ import numpy as np
 import os
 import LIB.formatos as fmt
 from tkinter.messagebox import showinfo
+import openpyxl
 
 # Leer el Excel "WP IVA IIBB.xlsx"
 df = pd.read_excel('WP IVA IIBB.xlsx', engine='openpyxl' , sheet_name="Clientes")
@@ -96,7 +97,25 @@ for i in range(len(df)):
         Df_T_Ventas.to_excel(writer, sheet_name='Ventas', index=False)
         Df_T_NCVentas.to_excel(writer, sheet_name='NCVentas', index=False)
 
-    
+    # Aplicar los Formatos de Títulos y filtros
+    workbook = openpyxl.load_workbook(OutputFile)
+    h1 = workbook['Compras']
+    h2 = workbook['NCCompras']
+    h3 = workbook['Ventas']
+    h4 = workbook['NCVentas']
+
+    Hojas = [h1, h2, h3, h4]
+
+    # Loop en todas las hojas
+    for hoja in Hojas:
+        fmt.Aplicar_formato_encabezado(hoja)
+        # Autoajustar columnas
+        fmt.Autoajustar_columnas(hoja)
+        # Agregar Filtros
+        fmt.Agregar_filtros(hoja)
+
+    # Guardar el archivo
+    workbook.save(OutputFile)
 
 #Mostrar mensaje de finalización
 showinfo("Finalizado", "Proceso finalizado con éxito")
