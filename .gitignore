@@ -2,3 +2,4 @@
 .local
 .package
 .templates
+LIB/__pycache__
