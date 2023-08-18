@@ -51,7 +51,8 @@ for i in range(len(df)):
     reemplazosOperaciones = {
         r"\(.*\)" : "" ,
         'Cons. Finales, Exentos y No Alcanzados' : 'Consumidores finales, Exentos y No alcanzados' ,
-        'Operaciones gravadas al 0%' : 'Operaciones no gravadas y exentas' }
+        'Operaciones gravadas al 0%' : 'Operaciones no gravadas y exentas',
+        'Operaciones no gravadas y exentas excepto exportaciones' : 'Operaciones no gravadas y exentas' }
 
 
     # Arreglar Ventas
