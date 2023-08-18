@@ -764,7 +764,7 @@
                                                                               </ui:Target>
                                                                             </ui:Click.Target>
                                                                           </ui:Click>
-                                                                          <If Condition="[v(&quot;Operaciones con..&quot;).tostring = &quot;Operaciones no gravadas y exentas&quot;]" DisplayName="Si es exento" sap:VirtualizedContainerService.HintSize="410,668" sap2010:WorkflowViewState.IdRef="If_8">
+                                                                          <If Condition="[v(&quot;Operaciones con...&quot;).ToString = &quot;Operaciones no gravadas y exentas&quot;]" DisplayName="Si es exento" sap:VirtualizedContainerService.HintSize="410,668" sap2010:WorkflowViewState.IdRef="If_8">
                                                                             <If.Then>
                                                                               <Sequence sap:VirtualizedContainerService.HintSize="376,243" sap2010:WorkflowViewState.IdRef="Sequence_115">
                                                                                 <sap:WorkflowViewStateService.ViewState>
