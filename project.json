@@ -1,0 +1,67 @@
+{
+  "name": "F2002",
+  "projectId": "343a3822-be26-4d66-af54-0d84cdf08744",
+  "description": "Data Scrapping F2002 del SOS-Contador y subida del Formulario a AFIP",
+  "main": "Descarga WP IVA 2.0.xaml",
+  "dependencies": {
+    "UiPath.Excel.Activities": "2.20.2",
+    "UiPath.System.Activities": "23.4.4",
+    "UiPath.Testing.Activities": "23.4.1",
+    "UiPath.UIAutomation.Activities": "23.4.8"
+  },
+  "webServices": [],
+  "entitiesStores": [],
+  "schemaVersion": "4.0",
+  "studioVersion": "23.8.0.0",
+  "projectVersion": "1.0.0",
+  "runtimeOptions": {
+    "autoDispose": false,
+    "netFrameworkLazyLoading": false,
+    "isPausable": true,
+    "isAttended": false,
+    "requiresUserInteraction": true,
+    "supportsPersistence": false,
+    "workflowSerialization": "DataContract",
+    "excludedLoggedData": [
+      "Private:*",
+      "*password*"
+    ],
+    "executionType": "Workflow",
+    "readyForPiP": false,
+    "startsInPiP": false,
+    "mustRestoreAllDependencies": true,
+    "pipType": "ChildSession"
+  },
+  "designOptions": {
+    "projectProfile": "Developement",
+    "outputType": "Process",
+    "libraryOptions": {
+      "includeOriginalXaml": false,
+      "privateWorkflows": []
+    },
+    "processOptions": {
+      "ignoredFiles": []
+    },
+    "fileInfoCollection": [],
+    "modernBehavior": false
+  },
+  "expressionLanguage": "VisualBasic",
+  "entryPoints": [
+    {
+      "filePath": "Main.xaml",
+      "uniqueId": "15af24aa-5155-43ef-b7f0-816e677ad733",
+      "input": [],
+      "output": []
+    },
+    {
+      "filePath": "Descarga WP IVA 2.0.xaml",
+      "uniqueId": "c5a27f26-bfdc-43cc-9403-3c88f10d26bf",
+      "input": [],
+      "output": []
+    }
+  ],
+  "isTemplate": false,
+  "templateProjectData": {},
+  "publishData": {},
+  "targetFramework": "Windows"
+}
