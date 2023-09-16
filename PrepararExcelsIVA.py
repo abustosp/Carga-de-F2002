@@ -17,6 +17,11 @@ df['Archivo'] = df['Ubicación IVA'] + df['Archivo IVA'] + '.xlsx'
 # Por cada linea del Excel, abrir los excels resultantes de la concatenación entre 'Ubicación IVA' y 'Archivo IVA' '.xlsx'
 for i in range(len(df)):
     archivo = df['Archivo'].iloc[i]
+
+    # si el archivo no existe continuar con el siguiente
+    if not os.path.isfile(archivo):
+        continue
+
     Df_T_Compras = pd.read_excel(archivo, engine='openpyxl', sheet_name='Compras')
     Df_T_NCCompras = pd.read_excel(archivo, engine='openpyxl', sheet_name='NCCompras')
     Df_T_Ventas = pd.read_excel(archivo, engine='openpyxl', sheet_name='Ventas')
@@ -36,16 +41,17 @@ for i in range(len(df)):
     Df_T_Compras = Df_T_Compras.groupby(['Compras por Agrupación de Crédito Fiscal' , 'Tasa IVA']).sum().reset_index()
     # Reemplazar 'Compra de bienes en el mercado local' por 'Compras de bienes (excepto bienes de uso)'
     Df_T_Compras['Compras por Agrupación de Crédito Fiscal'] = Df_T_Compras['Compras por Agrupación de Crédito Fiscal'].replace('Compra de bienes en el mercado local' , 'Compras de bienes (excepto bienes de uso)')
+    Df_T_Compras['Compras por Agrupación de Crédito Fiscal'] = Df_T_Compras['Compras por Agrupación de Crédito Fiscal'].replace('Otros conceptos' , 'Otros Conceptos')
 
 
     # Arreglar NCCompras
-    Df_T_NCCompras['Notas de Créd. Recibidas'].fillna('Compra de bienes en el mercado local' , inplace=True)
+    Df_T_NCCompras['N. Créd. Recibidas'].fillna('Compra de bienes en el mercado local' , inplace=True)
     # Eliminar las columnas que no se usan que contienen 'Url'
     Df_T_NCCompras.drop(Df_T_NCCompras.filter(regex='Url').columns, axis=1, inplace=True)
     # Agrupar las compras por 'Compras por Agrupación de Crédito Fiscal' y 'Tasa IVA'
-    Df_T_NCCompras = Df_T_NCCompras.groupby(['Notas de Créd. Recibidas' , 'Tasa IVA']).sum().reset_index()
+    Df_T_NCCompras = Df_T_NCCompras.groupby(['N. Créd. Recibidas' , 'Tasa IVA']).sum().reset_index()
     # Reemplazar 'Compra de bienes en el mercado local' por 'Compras de bienes (excepto bienes de uso)'
-    Df_T_NCCompras['Notas de Créd. Recibidas'] = Df_T_NCCompras['Notas de Créd. Recibidas'].replace('Compra de bienes en el mercado local' , 'Compras de bienes (excepto bienes de uso)')
+    Df_T_NCCompras['N. Créd. Recibidas'] = Df_T_NCCompras['N. Créd. Recibidas'].replace('Compra de bienes en el mercado local' , 'Compras de bienes (excepto bienes de uso)')
 
     # Reemplazos de operaciones con...
     # los valores que estan entre parentesis, 'Cons. Finales' y 'Operaciones gravadas al 0%'
@@ -53,12 +59,15 @@ for i in range(len(df)):
         r"\(.*\)" : "" ,
         'Cons. Finales, Exentos y No Alcanzados' : 'Consumidores finales, Exentos y No alcanzados' ,
         'Operaciones gravadas al 0%' : 'Operaciones no gravadas y exentas',
-        'Operaciones no gravadas y exentas excepto exportaciones' : 'Operaciones no gravadas y exentas' }
-
+        'Operaciones no gravadas y exentas excepto exportaciones' : 'Operaciones no gravadas y exentas',}
+    Texto_a_reemplazar = ' **** SIN CAE ni PEM ****'
 
     # Arreglar Ventas
     # Realizar los reemplazos de 'operaciones con... '
-    Df_T_Ventas['Operaciones con...'] = Df_T_Ventas['Operaciones con...'].replace(reemplazosOperaciones , regex=True)    
+    Df_T_Ventas['Operaciones con...'] = Df_T_Ventas['Operaciones con...'].replace(reemplazosOperaciones , regex=True)
+    # Reemplazar el texto ' **** SIN CAE ni PEM ****' por ''
+    Df_T_Ventas['Operaciones con...'] = Df_T_Ventas['Operaciones con...'].str.replace(Texto_a_reemplazar , '' , regex=False)
+    
     # Eliminar de la columna 'Operaciones con...' todo lo anteior al primer punto
     Df_T_Ventas['Operaciones con...'] = Df_T_Ventas['Operaciones con...'].str.split('.').str[1].str.strip()    
     # Eliminar las columnas que no se usan que contienen 'Url'
@@ -67,6 +76,7 @@ for i in range(len(df)):
     # Arreglar NCVentas
     # Realizar los reemplazos de 'operaciones con... '
     Df_T_NCVentas['Operaciones con...'] = Df_T_NCVentas['Operaciones con...'].replace(reemplazosOperaciones , regex=True)
+    Df_T_NCVentas['Operaciones con...'] = Df_T_NCVentas['Operaciones con...'].str.replace(Texto_a_reemplazar , '' , regex=False)
     # Eliminar de la columna 'Operaciones con...' todo lo anteior al primer punto
     Df_T_NCVentas['Operaciones con...'] = Df_T_NCVentas['Operaciones con...'].str.split('.').str[1].str.strip()
     # Eliminar las columnas que no se usan que contienen 'Url'
@@ -88,10 +98,16 @@ for i in range(len(df)):
     for dataframe in Dataframes:
         dataframe['Tasa IVA'] = dataframe['Tasa IVA'].replace(reemplazos)
 
-    OutputFile = df["Archivo IVA 2002"].str.replace("\\" , "/" , regex=True).iloc[i]
+    OutputFile = df["Ubicación IVA"].str.replace("\\" , "/" , regex=True).iloc[i] + "Procesado/" + df['Archivo IVA'].iloc[i] + '.xlsx'
+
+    Directorio = df["Ubicación IVA"].str.replace("\\" , "/" , regex=True).iloc[i] + "Procesado/"
+
+    # Si el directorio no existe, crearlo
+    if not os.path.exists(Directorio):
+        os.mkdir(df["Ubicación IVA"].str.replace("\\" , "/" , regex=True).iloc[i] + "Procesado/")
 
     # Exportación a Excel
-    with pd.ExcelWriter(OutputFile) as writer:
+    with pd.ExcelWriter(OutputFile , engine='openpyxl') as writer:
         Df_T_Compras.to_excel(writer, sheet_name='Compras', index=False)
         Df_T_NCCompras.to_excel(writer, sheet_name='NCCompras', index=False)
         Df_T_Ventas.to_excel(writer, sheet_name='Ventas', index=False)
