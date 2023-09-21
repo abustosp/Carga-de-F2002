@@ -72,6 +72,12 @@ for i in range(len(df)):
     Df_T_Ventas['Operaciones con...'] = Df_T_Ventas['Operaciones con...'].str.split('.').str[1].str.strip()    
     # Eliminar las columnas que no se usan que contienen 'Url'
     Df_T_Ventas.drop(Df_T_Ventas.filter(regex='Url').columns, axis=1, inplace=True)
+
+    # Renombrar en 'Operaciones con...' la expresión 'Operaciones no gravadas y exentas NC' por 'Operaciones no gravadas y exentas'
+    Df_T_Ventas['Operaciones con...'] = Df_T_Ventas['Operaciones con...'].replace('Operaciones no gravadas y exentas NC' , 'Operaciones no gravadas y exentas')
+
+    # Agrupar las ventas en la cual la 'Tasa IVA' sea '0' 
+    Df_T_Ventas = Df_T_Ventas.groupby(['Operaciones con...' , 'Tasa IVA']).sum().reset_index()
     
     # Arreglar NCVentas
     # Realizar los reemplazos de 'operaciones con... '
