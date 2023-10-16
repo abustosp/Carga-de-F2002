@@ -102,6 +102,7 @@
       <AssemblyReference>UiPath.System.Activities.ViewModels</AssemblyReference>
       <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
       <AssemblyReference>Microsoft.Win32.Primitives</AssemblyReference>
+      <AssemblyReference>System.CodeDom</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
   <sap:WorkflowViewStateService.ViewState>
@@ -947,7 +948,7 @@
                                                                               </ui:CursorPosition>
                                                                             </ui:Click.CursorPosition>
                                                                             <ui:Click.Target>
-                                                                              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="b97d5871-ef6b-4c4f-82b4-e4838fefde52" InformativeScreenshot="5d10137b527a1dc825e26ce8f7999cef" Selector="[string.Format(&quot;&lt;webctrl class='v-table-table' tag='TABLE' /&gt;&lt;webctrl tag='IMG' rowName='*{0}*' /&gt;&quot;, Responsable)]">
+                                                                              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="b97d5871-ef6b-4c4f-82b4-e4838fefde52" InformativeScreenshot="5d10137b527a1dc825e26ce8f7999cef" Selector="[string.Format(&quot;&lt;webctrl class='v-table-table' tag='TABLE' /&gt;&lt;webctrl tag='IMG' rowName='*{0}*' /&gt;&quot;, Lcase(Responsable))]">
                                                                                 <ui:Target.TimeoutMS>
                                                                                   <InArgument x:TypeArguments="x:Int32" />
                                                                                 </ui:Target.TimeoutMS>
