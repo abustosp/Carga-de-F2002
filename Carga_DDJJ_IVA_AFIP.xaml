@@ -126,7 +126,7 @@
     <Flowchart.StartNode>
       <x:Reference>__ReferenceID0</x:Reference>
     </Flowchart.StartNode>
-    <FlowStep x:Name="__ReferenceID0">
+    <FlowStep x:Name="__ReferenceID0" sap2010:WorkflowViewState.IdRef="FlowStep_1">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <av:Point x:Key="ShapeLocation">100,125</av:Point>
@@ -768,10 +768,7 @@
                                                                           </ui:Click>
                                                                           <ui:WaitUiElementAppear FoundElement="{x:Null}" DisplayName="Esperar" sap:VirtualizedContainerService.HintSize="410,107" sap2010:WorkflowViewState.IdRef="WaitUiElementAppear_1" WaitActive="True" WaitVisible="True">
                                                                             <ui:WaitUiElementAppear.Target>
-                                                                              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="5ec3abaa-cf95-4461-a356-aa70f29614c0" InformativeScreenshot="85bd4065d1dd31af768150356fa67207" Selector="&lt;webctrl class='v-icon' idx='3' tag='IMG' /&gt;">
-                                                                                <ui:Target.TimeoutMS>
-                                                                                  <InArgument x:TypeArguments="x:Int32" />
-                                                                                </ui:Target.TimeoutMS>
+                                                                              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="5ec3abaa-cf95-4461-a356-aa70f29614c0" InformativeScreenshot="85bd4065d1dd31af768150356fa67207" Selector="&lt;webctrl class='v-icon' idx='3' tag='IMG' /&gt;" TimeoutMS="3000">
                                                                                 <ui:Target.WaitForReady>
                                                                                   <InArgument x:TypeArguments="ui:WaitForReady" />
                                                                                 </ui:Target.WaitForReady>
@@ -786,7 +783,7 @@
                                                                                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                                                                   </scg:Dictionary>
                                                                                 </sap:WorkflowViewStateService.ViewState>
-                                                                                <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" Activate="True" DeselectAfter="True" DisplayName="Copiar F2002" sap:VirtualizedContainerService.HintSize="334,155" sap2010:WorkflowViewState.IdRef="TypeInto_45" SimulateType="True" Text="[v(&quot;Copiar F2002&quot;).ToString]">
+                                                                                <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" Activate="True" ContinueOnError="True" DeselectAfter="True" DisplayName="Copiar F2002" sap:VirtualizedContainerService.HintSize="334,155" sap2010:WorkflowViewState.IdRef="TypeInto_45" SimulateType="True" Text="[v(&quot;Copiar F2002&quot;).ToString]">
                                                                                   <ui:TypeInto.Target>
                                                                                     <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="09738ba8-cf4a-46f5-ab9c-083b9eb32540" InformativeScreenshot="d26383d0561ac694eab2fd229da8e8ea" Selector="&lt;webctrl class='v-table-table' tag='TABLE' /&gt;&lt;webctrl tag='INPUT' omit:rowName='' /&gt;">
                                                                                       <ui:Target.TimeoutMS>
@@ -807,7 +804,7 @@
                                                                                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                                                                   </scg:Dictionary>
                                                                                 </sap:WorkflowViewStateService.ViewState>
-                                                                                <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" Activate="True" DeselectAfter="True" DisplayName="Copiar F2002" sap:VirtualizedContainerService.HintSize="334,155" sap2010:WorkflowViewState.IdRef="TypeInto_47" SimulateType="True" Text="[v(&quot;Copiar F2002&quot;).ToString]">
+                                                                                <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" Activate="True" ContinueOnError="True" DeselectAfter="True" DisplayName="Copiar F2002" sap:VirtualizedContainerService.HintSize="334,155" sap2010:WorkflowViewState.IdRef="TypeInto_47" SimulateType="True" Text="[v(&quot;Copiar F2002&quot;).ToString]">
                                                                                   <ui:TypeInto.Target>
                                                                                     <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="09738ba8-cf4a-46f5-ab9c-083b9eb32540" InformativeScreenshot="d26383d0561ac694eab2fd229da8e8ea" Selector="[string.Format(&quot;&lt;webctrl class='v-table-table' tag='TABLE' /&gt;&lt;webctrl tag='INPUT' rowName='*{0}*' /&gt;&quot;, AlicIVA)]">
                                                                                       <ui:Target.TimeoutMS>
@@ -962,17 +959,14 @@
                                                                           </ui:Click>
                                                                           <ui:WaitUiElementAppear FoundElement="{x:Null}" DisplayName="Esperar" sap:VirtualizedContainerService.HintSize="388,107" sap2010:WorkflowViewState.IdRef="WaitUiElementAppear_2" WaitActive="True" WaitVisible="True">
                                                                             <ui:WaitUiElementAppear.Target>
-                                                                              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="5ec3abaa-cf95-4461-a356-aa70f29614c0" InformativeScreenshot="85bd4065d1dd31af768150356fa67207" Selector="&lt;webctrl class='v-icon' idx='3' tag='IMG' /&gt;">
-                                                                                <ui:Target.TimeoutMS>
-                                                                                  <InArgument x:TypeArguments="x:Int32" />
-                                                                                </ui:Target.TimeoutMS>
+                                                                              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="5ec3abaa-cf95-4461-a356-aa70f29614c0" InformativeScreenshot="85bd4065d1dd31af768150356fa67207" Selector="&lt;webctrl class='v-icon' idx='3' tag='IMG' /&gt;" TimeoutMS="3000">
                                                                                 <ui:Target.WaitForReady>
                                                                                   <InArgument x:TypeArguments="ui:WaitForReady" />
                                                                                 </ui:Target.WaitForReady>
                                                                               </ui:Target>
                                                                             </ui:WaitUiElementAppear.Target>
                                                                           </ui:WaitUiElementAppear>
-                                                                          <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" Activate="True" DeselectAfter="True" DisplayName="Copiar F2002" sap:VirtualizedContainerService.HintSize="388,155" sap2010:WorkflowViewState.IdRef="TypeInto_49" SimulateType="True" Text="[NCC(&quot;Monto Neto&quot;).ToString]">
+                                                                          <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" Activate="True" ContinueOnError="True" DeselectAfter="True" DisplayName="Copiar F2002" sap:VirtualizedContainerService.HintSize="388,155" sap2010:WorkflowViewState.IdRef="TypeInto_49" SimulateType="True" Text="[NCC(&quot;Monto Neto&quot;).ToString]">
                                                                             <ui:TypeInto.Target>
                                                                               <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="09738ba8-cf4a-46f5-ab9c-083b9eb32540" InformativeScreenshot="d26383d0561ac694eab2fd229da8e8ea" Selector="[string.Format(&quot;&lt;webctrl class='v-table-table' tag='TABLE' /&gt;&lt;webctrl tag='INPUT' rowName='*{0}*' /&gt;&quot;, AlicIVA)]">
                                                                                 <ui:Target.TimeoutMS>
@@ -1100,17 +1094,14 @@
                                                                           </ui:Click>
                                                                           <ui:WaitUiElementAppear FoundElement="{x:Null}" DisplayName="Esperar" sap:VirtualizedContainerService.HintSize="388,107" sap2010:WorkflowViewState.IdRef="WaitUiElementAppear_3" WaitActive="True" WaitVisible="True">
                                                                             <ui:WaitUiElementAppear.Target>
-                                                                              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="5ec3abaa-cf95-4461-a356-aa70f29614c0" InformativeScreenshot="85bd4065d1dd31af768150356fa67207" Selector="&lt;webctrl class='v-icon' idx='3' tag='IMG' /&gt;">
-                                                                                <ui:Target.TimeoutMS>
-                                                                                  <InArgument x:TypeArguments="x:Int32" />
-                                                                                </ui:Target.TimeoutMS>
+                                                                              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="5ec3abaa-cf95-4461-a356-aa70f29614c0" InformativeScreenshot="85bd4065d1dd31af768150356fa67207" Selector="&lt;webctrl class='v-icon' idx='3' tag='IMG' /&gt;" TimeoutMS="3000">
                                                                                 <ui:Target.WaitForReady>
                                                                                   <InArgument x:TypeArguments="ui:WaitForReady" />
                                                                                 </ui:Target.WaitForReady>
                                                                               </ui:Target>
                                                                             </ui:WaitUiElementAppear.Target>
                                                                           </ui:WaitUiElementAppear>
-                                                                          <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" Activate="True" DeselectAfter="True" DisplayName="Copiar F2002" sap:VirtualizedContainerService.HintSize="388,155" sap2010:WorkflowViewState.IdRef="TypeInto_46" SimulateType="True" Text="[C(&quot;Monto Neto&quot;).ToString]">
+                                                                          <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" Activate="True" ContinueOnError="True" DeselectAfter="True" DisplayName="Copiar F2002" sap:VirtualizedContainerService.HintSize="388,155" sap2010:WorkflowViewState.IdRef="TypeInto_46" SimulateType="True" Text="[C(&quot;Monto Neto&quot;).ToString]">
                                                                             <ui:TypeInto.Target>
                                                                               <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="09738ba8-cf4a-46f5-ab9c-083b9eb32540" InformativeScreenshot="d26383d0561ac694eab2fd229da8e8ea" Selector="[string.Format(&quot;&lt;webctrl class='v-table-table' tag='TABLE' /&gt;&lt;webctrl tag='INPUT' rowName='*{0}*' /&gt;&quot;, AlicIVA)]">
                                                                                 <ui:Target.TimeoutMS>
@@ -1238,17 +1229,14 @@
                                                                           </ui:Click>
                                                                           <ui:WaitUiElementAppear FoundElement="{x:Null}" DisplayName="Esperar" sap:VirtualizedContainerService.HintSize="388,107" sap2010:WorkflowViewState.IdRef="WaitUiElementAppear_4" WaitActive="True" WaitVisible="True">
                                                                             <ui:WaitUiElementAppear.Target>
-                                                                              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="5ec3abaa-cf95-4461-a356-aa70f29614c0" InformativeScreenshot="85bd4065d1dd31af768150356fa67207" Selector="&lt;webctrl class='v-icon' idx='3' tag='IMG' /&gt;">
-                                                                                <ui:Target.TimeoutMS>
-                                                                                  <InArgument x:TypeArguments="x:Int32" />
-                                                                                </ui:Target.TimeoutMS>
+                                                                              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="5ec3abaa-cf95-4461-a356-aa70f29614c0" InformativeScreenshot="85bd4065d1dd31af768150356fa67207" Selector="&lt;webctrl class='v-icon' idx='3' tag='IMG' /&gt;" TimeoutMS="3000">
                                                                                 <ui:Target.WaitForReady>
                                                                                   <InArgument x:TypeArguments="ui:WaitForReady" />
                                                                                 </ui:Target.WaitForReady>
                                                                               </ui:Target>
                                                                             </ui:WaitUiElementAppear.Target>
                                                                           </ui:WaitUiElementAppear>
-                                                                          <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" Activate="True" DeselectAfter="True" DisplayName="Copiar F2002" sap:VirtualizedContainerService.HintSize="388,155" sap2010:WorkflowViewState.IdRef="TypeInto_50" SimulateType="True" Text="[NCV(&quot;Monto Neto&quot;).ToString]">
+                                                                          <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" Activate="True" ContinueOnError="True" DeselectAfter="True" DisplayName="Copiar F2002" sap:VirtualizedContainerService.HintSize="388,155" sap2010:WorkflowViewState.IdRef="TypeInto_50" SimulateType="True" Text="[NCV(&quot;Monto Neto&quot;).ToString]">
                                                                             <ui:TypeInto.Target>
                                                                               <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="09738ba8-cf4a-46f5-ab9c-083b9eb32540" InformativeScreenshot="d26383d0561ac694eab2fd229da8e8ea" Selector="[string.Format(&quot;&lt;webctrl class='v-table-table' tag='TABLE' /&gt;&lt;webctrl tag='INPUT' rowName='*{0}*' /&gt;&quot;, AlicIVA)]">
                                                                                 <ui:Target.TimeoutMS>
