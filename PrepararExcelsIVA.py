@@ -49,7 +49,7 @@ for i in range(len(df)):
     # Eliminar las columnas que no se usan que contienen 'Url'
     Df_T_NCCompras.drop(Df_T_NCCompras.filter(regex='Url').columns, axis=1, inplace=True)
     # Agrupar las compras por 'Compras por Agrupación de Crédito Fiscal' y 'Tasa IVA'
-    Df_T_NCCompras = Df_T_NCCompras.groupby(['N. Créd. Recibidas' , 'Tasa IVA']).sum().reset_index()
+    Df_T_NCCompras = Df_T_NCCompras.groupby(['N. Créd. Recibidas' , 'Tasa IVA']).sum(numeric_only=False).reset_index()
     # Reemplazar 'Compra de bienes en el mercado local' por 'Compras de bienes (excepto bienes de uso)'
     Df_T_NCCompras['N. Créd. Recibidas'] = Df_T_NCCompras['N. Créd. Recibidas'].replace('Compra de bienes en el mercado local' , 'Compras de bienes (excepto bienes de uso)')
 
@@ -59,7 +59,8 @@ for i in range(len(df)):
         r"\(.*\)" : "" ,
         'Cons. Finales, Exentos y No Alcanzados' : 'Consumidores finales, Exentos y No alcanzados' ,
         'Operaciones gravadas al 0%' : 'Operaciones no gravadas y exentas',
-        'Operaciones no gravadas y exentas excepto exportaciones' : 'Operaciones no gravadas y exentas',}
+        'Operaciones no gravadas y exentas excepto exportaciones' : 'Operaciones no gravadas y exentas',
+        }
     Texto_a_reemplazar = ' **** SIN CAE ni PEM ****'
 
     # Arreglar Ventas
@@ -72,22 +73,31 @@ for i in range(len(df)):
     Df_T_Ventas['Operaciones con...'] = Df_T_Ventas['Operaciones con...'].str.split('.').str[1].str.strip()    
     # Eliminar las columnas que no se usan que contienen 'Url'
     Df_T_Ventas.drop(Df_T_Ventas.filter(regex='Url').columns, axis=1, inplace=True)
+    
+    # # sumar las filas cuyas 'Operaciones con...' son 'Operaciones no gravadas y exentas' y 'Operaciones no gravadas y exentas NC' en una sola fila con el concepto 'Operaciones no gravadas y exentas'
+    # si el largo del dataframe es 0, continuar con el siguiente
+    if len(Df_T_Ventas) > 0:
+        Df_T_Ventas['Operaciones con...' ] = Df_T_Ventas['Operaciones con...'].replace('Operaciones no gravadas y exentas NC' , 'Operaciones no gravadas y exentas')
+        # Agregar los montos y reemplazar en el DataFrame original
+        Df_T_Ventas = Df_T_Ventas.groupby(['Ventas x Cód. Actividad', 'Operaciones con...' , 'Tasa IVA'])[['Monto Neto', 'Monto IVA', 'Monto Total', 'Copiar F2002']].sum().reset_index()
 
-    # Renombrar en 'Operaciones con...' la expresión 'Operaciones no gravadas y exentas NC' por 'Operaciones no gravadas y exentas'
-    Df_T_Ventas['Operaciones con...'] = Df_T_Ventas['Operaciones con...'].replace('Operaciones no gravadas y exentas NC' , 'Operaciones no gravadas y exentas')
-
-    # Agrupar las ventas en la cual la 'Tasa IVA' sea '0' 
-    Df_T_Ventas = Df_T_Ventas.groupby(['Operaciones con...' , 'Tasa IVA']).sum().reset_index()
     
     # Arreglar NCVentas
     # Realizar los reemplazos de 'operaciones con... '
     Df_T_NCVentas['Operaciones con...'] = Df_T_NCVentas['Operaciones con...'].replace(reemplazosOperaciones , regex=True)
     Df_T_NCVentas['Operaciones con...'] = Df_T_NCVentas['Operaciones con...'].str.replace(Texto_a_reemplazar , '' , regex=False)
+    # reemplazar 'Consumidores finales, Exentos y No alcanzados' y 'Monotributistas' por 'Sujetos Exentos, No Alcanzados, Monotributistas y Consumidores Finales'
+    reemplazosncv ={
+        'Consumidores finales, Exentos y No alcanzados' : 'Sujetos Exentos, No Alcanzados, Monotributistas y Consumidores Finales',
+        'Monotributistas' : 'Sujetos Exentos, No Alcanzados, Monotributistas y Consumidores Finales'
+    } 
+    Df_T_NCVentas['Operaciones con...'] = Df_T_NCVentas['Operaciones con...'].replace(reemplazosncv , regex=True)
     # Eliminar de la columna 'Operaciones con...' todo lo anteior al primer punto
     Df_T_NCVentas['Operaciones con...'] = Df_T_NCVentas['Operaciones con...'].str.split('.').str[1].str.strip()
     # Eliminar las columnas que no se usan que contienen 'Url'
     Df_T_NCVentas.drop(Df_T_NCVentas.filter(regex='Url').columns, axis=1, inplace=True)
-
+    # Sumar las operaciones que tengan el mismo concepto y tasa de IVA
+    Df_T_NCVentas = Df_T_NCVentas.groupby(['Operaciones con...' , 'Tasa IVA']).sum(numeric_only=False).reset_index()
 
     # Listar los Dataframes
     Dataframes = [Df_T_Compras, Df_T_NCCompras, Df_T_Ventas, Df_T_NCVentas]
@@ -104,13 +114,13 @@ for i in range(len(df)):
     for dataframe in Dataframes:
         dataframe['Tasa IVA'] = dataframe['Tasa IVA'].replace(reemplazos)
 
-    OutputFile = df["Ubicación IVA"].str.replace("\\" , "/" , regex=True).iloc[i] + "Procesado/" + df['Archivo IVA'].iloc[i] + '.xlsx'
+    OutputFile = df["Ubicación IVA"].iloc[i] + "Procesado/" + df['Archivo IVA'].iloc[i] + '.xlsx'
 
-    Directorio = df["Ubicación IVA"].str.replace("\\" , "/" , regex=True).iloc[i] + "Procesado/"
+    Directorio = df["Ubicación IVA"].iloc[i] + "Procesado/"
 
     # Si el directorio no existe, crearlo
     if not os.path.exists(Directorio):
-        os.mkdir(df["Ubicación IVA"].str.replace("\\" , "/" , regex=True).iloc[i] + "Procesado/")
+        os.mkdir(df["Ubicación IVA"].iloc[i] + "Procesado/")
 
     # Exportación a Excel
     with pd.ExcelWriter(OutputFile , engine='openpyxl') as writer:
