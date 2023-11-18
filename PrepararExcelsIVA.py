@@ -11,7 +11,7 @@ df = pd.read_excel('WP IVA IIBB.xlsx', engine='openpyxl' , sheet_name="Clientes"
 # Filtrar los que no diga "SI" o "si" en la columna 'Importar'
 df['Importar'] = df['Importar'].fillna('NO')
 df = df[df['Importar'].str.contains('SI|si')]
-df['Ubicación IVA'] = df['Ubicación IVA'].fillna('NO').str.replace("\\", "/", regex=True)
+#df['Ubicación IVA'] = df['Ubicación IVA'].str.replace("\\", "/", regex=True)
 df['Archivo'] = df['Ubicación IVA'] + df['Archivo IVA'] + '.xlsx'
 
 # Por cada linea del Excel, abrir los excels resultantes de la concatenación entre 'Ubicación IVA' y 'Archivo IVA' '.xlsx'
