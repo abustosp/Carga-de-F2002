@@ -11,7 +11,7 @@ df = pd.read_excel('WP IVA IIBB.xlsx', engine='openpyxl' , sheet_name="Clientes"
 # Filtrar los que no diga "SI" o "si" en la columna 'Importar'
 df['Importar'] = df['Importar'].fillna('NO')
 df = df[df['Importar'].str.contains('SI|si')]
-df['Ubicación IVA'] = df['Ubicación IVA'].fillna('NO').str.replace("\\", "/", regex=True)
+df['Ubicación IVA'] = df['Ubicación IVA'].fillna('NO')
 df['Archivo'] = df['Ubicación IVA'] + "Procesado/" + df['Archivo IVA'] + '.xlsx'
 
 Ventas = pd.DataFrame()
