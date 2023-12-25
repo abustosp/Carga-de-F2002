@@ -37,12 +37,13 @@ for i in range(len(df)):
     Df_T_Compras['Compras por Agrupación de Crédito Fiscal'].fillna('Compra de bienes en el mercado local' , inplace=True)
     # Eliminar las columnas que no se usan que contienen 'Url'
     Df_T_Compras.drop(Df_T_Compras.filter(regex='Url').columns, axis=1, inplace=True)
-    # Agrupar las compras por 'Compras por Agrupación de Crédito Fiscal' y 'Tasa IVA'
-    Df_T_Compras = Df_T_Compras.groupby(['Compras por Agrupación de Crédito Fiscal' , 'Tasa IVA']).sum().reset_index()
     # Reemplazar 'Compra de bienes en el mercado local' por 'Compras de bienes (excepto bienes de uso)'
     Df_T_Compras['Compras por Agrupación de Crédito Fiscal'] = Df_T_Compras['Compras por Agrupación de Crédito Fiscal'].replace('Compra de bienes en el mercado local' , 'Compras de bienes (excepto bienes de uso)')
     Df_T_Compras['Compras por Agrupación de Crédito Fiscal'] = Df_T_Compras['Compras por Agrupación de Crédito Fiscal'].replace('Otros conceptos' , 'Otros Conceptos')
-
+    # Si 'Compras por Agrupación de Crédito Fiscal' es igual a 'Otros Conceptos' reemplazar 'Tasa IVA' por 'Consolidado'
+    Df_T_Compras.loc[Df_T_Compras['Compras por Agrupación de Crédito Fiscal'] == 'Otros Conceptos', 'Tasa IVA'] = 'Consolidado'
+    # Agrupar las compras por 'Compras por Agrupación de Crédito Fiscal' y 'Tasa IVA'
+    Df_T_Compras = Df_T_Compras.groupby(['Compras por Agrupación de Crédito Fiscal' , 'Tasa IVA']).sum().reset_index()
 
     # Arreglar NCCompras
     Df_T_NCCompras['N. Créd. Recibidas'].fillna('Compra de bienes en el mercado local' , inplace=True)
