@@ -33,13 +33,18 @@ for i in range(len(df)):
     Df_T_Ventas = Df_T_Ventas.iloc[:-1]
     Df_T_NCVentas = Df_T_NCVentas.iloc[:-1]
 
+    Reemplazos_Compras = {
+        'Compra de bienes en el mercado local' : 'Compras de bienes (excepto bienes de uso)',
+        'Otros conceptos' : 'Otros Conceptos',
+        'Inversiones en bienes de uso' : 'Inversiones de Bienes de Uso'
+    }
+
     # Arreglar Compras
     Df_T_Compras['Compras por Agrupación de Crédito Fiscal'].fillna('Compra de bienes en el mercado local' , inplace=True)
     # Eliminar las columnas que no se usan que contienen 'Url'
     Df_T_Compras.drop(Df_T_Compras.filter(regex='Url').columns, axis=1, inplace=True)
-    # Reemplazar 'Compra de bienes en el mercado local' por 'Compras de bienes (excepto bienes de uso)'
-    Df_T_Compras['Compras por Agrupación de Crédito Fiscal'] = Df_T_Compras['Compras por Agrupación de Crédito Fiscal'].replace('Compra de bienes en el mercado local' , 'Compras de bienes (excepto bienes de uso)')
-    Df_T_Compras['Compras por Agrupación de Crédito Fiscal'] = Df_T_Compras['Compras por Agrupación de Crédito Fiscal'].replace('Otros conceptos' , 'Otros Conceptos')
+    # Reemplazar los valores de 'Compras por Agrupación de Crédito Fiscal' por los valores de 'Reemplazos_Compras'
+    Df_T_Compras['Compras por Agrupación de Crédito Fiscal'] = Df_T_Compras['Compras por Agrupación de Crédito Fiscal'].replace(Reemplazos_Compras , regex=True)
     # Si 'Compras por Agrupación de Crédito Fiscal' es igual a 'Otros Conceptos' reemplazar 'Tasa IVA' por 'Consolidado'
     Df_T_Compras.loc[Df_T_Compras['Compras por Agrupación de Crédito Fiscal'] == 'Otros Conceptos', 'Tasa IVA'] = 'Consolidado'
     # Agrupar las compras por 'Compras por Agrupación de Crédito Fiscal' y 'Tasa IVA'
@@ -90,7 +95,8 @@ for i in range(len(df)):
     # reemplazar 'Consumidores finales, Exentos y No alcanzados' y 'Monotributistas' por 'Sujetos Exentos, No Alcanzados, Monotributistas y Consumidores Finales'
     reemplazosncv ={
         'Consumidores finales, Exentos y No alcanzados' : 'Sujetos Exentos, No Alcanzados, Monotributistas y Consumidores Finales',
-        'Monotributistas' : 'Sujetos Exentos, No Alcanzados, Monotributistas y Consumidores Finales'
+        'Monotributistas' : 'Sujetos Exentos, No Alcanzados, Monotributistas y Consumidores Finales',
+        'Compra de bienes en el mercado local' : 'compras de bienes en el mercado local'
     } 
     Df_T_NCVentas['Operaciones con...'] = Df_T_NCVentas['Operaciones con...'].replace(reemplazosncv , regex=True)
     # Eliminar de la columna 'Operaciones con...' todo lo anteior al primer punto
