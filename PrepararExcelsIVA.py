@@ -33,31 +33,29 @@ for i in range(len(df)):
     Df_T_Ventas = Df_T_Ventas.iloc[:-1]
     Df_T_NCVentas = Df_T_NCVentas.iloc[:-1]
 
-    Reemplazos_Compras = {
-        'Compra de bienes en el mercado local' : 'Compras de bienes (excepto bienes de uso)',
-        'Otros conceptos' : 'Otros Conceptos',
-        'Inversiones en bienes de uso' : 'Inversiones de Bienes de Uso'
-    }
 
     # Arreglar Compras
     Df_T_Compras['Compras por Agrupación de Crédito Fiscal'].fillna('Compra de bienes en el mercado local' , inplace=True)
     # Eliminar las columnas que no se usan que contienen 'Url'
     Df_T_Compras.drop(Df_T_Compras.filter(regex='Url').columns, axis=1, inplace=True)
-    # Reemplazar los valores de 'Compras por Agrupación de Crédito Fiscal' por los valores de 'Reemplazos_Compras'
-    Df_T_Compras['Compras por Agrupación de Crédito Fiscal'] = Df_T_Compras['Compras por Agrupación de Crédito Fiscal'].replace(Reemplazos_Compras , regex=True)
+    # Reemplazar 'Compra de bienes en el mercado local' por 'Compras de bienes (excepto bienes de uso)'
+    Df_T_Compras['Compras por Agrupación de Crédito Fiscal'] = Df_T_Compras['Compras por Agrupación de Crédito Fiscal'].replace('Compra de bienes en el mercado local' , 'Compras de bienes (excepto bienes de uso)')
+    Df_T_Compras['Compras por Agrupación de Crédito Fiscal'] = Df_T_Compras['Compras por Agrupación de Crédito Fiscal'].replace('Otros conceptos' , 'Otros Conceptos')
+    Df_T_Compras['Compras por Agrupación de Crédito Fiscal'] = Df_T_Compras['Compras por Agrupación de Crédito Fiscal'].replace('Inversiones en bienes de uso' , 'Inversiones de Bienes de Uso')
     # Si 'Compras por Agrupación de Crédito Fiscal' es igual a 'Otros Conceptos' reemplazar 'Tasa IVA' por 'Consolidado'
     Df_T_Compras.loc[Df_T_Compras['Compras por Agrupación de Crédito Fiscal'] == 'Otros Conceptos', 'Tasa IVA'] = 'Consolidado'
     # Agrupar las compras por 'Compras por Agrupación de Crédito Fiscal' y 'Tasa IVA'
     Df_T_Compras = Df_T_Compras.groupby(['Compras por Agrupación de Crédito Fiscal' , 'Tasa IVA']).sum().reset_index()
 
+
     # Arreglar NCCompras
-    Df_T_NCCompras['N. Créd. Recibidas'].fillna('Compra de bienes en el mercado local' , inplace=True)
+    Df_T_NCCompras['N. Créd. Recibidas - Crédito Fiscal a restituir'].fillna('Compra de bienes en el mercado local' , inplace=True)
     # Eliminar las columnas que no se usan que contienen 'Url'
     Df_T_NCCompras.drop(Df_T_NCCompras.filter(regex='Url').columns, axis=1, inplace=True)
     # Agrupar las compras por 'Compras por Agrupación de Crédito Fiscal' y 'Tasa IVA'
-    Df_T_NCCompras = Df_T_NCCompras.groupby(['N. Créd. Recibidas' , 'Tasa IVA']).sum(numeric_only=False).reset_index()
+    Df_T_NCCompras = Df_T_NCCompras.groupby(['N. Créd. Recibidas - Crédito Fiscal a restituir' , 'Tasa IVA' , 'Column-1']).sum(numeric_only=False).reset_index()
     # Reemplazar 'Compra de bienes en el mercado local' por 'Compras de bienes (excepto bienes de uso)'
-    Df_T_NCCompras['N. Créd. Recibidas'] = Df_T_NCCompras['N. Créd. Recibidas'].replace('Compra de bienes en el mercado local' , 'Compras de bienes (excepto bienes de uso)')
+    Df_T_NCCompras['Column-1'] = Df_T_NCCompras['Column-1'].replace('Compra de bienes en el mercado local' , 'compras de bienes en el mercado local (excepto bienes de uso)')
 
     # Reemplazos de operaciones con...
     # los valores que estan entre parentesis, 'Cons. Finales' y 'Operaciones gravadas al 0%'
@@ -68,6 +66,7 @@ for i in range(len(df)):
         'Operaciones no gravadas y exentas excepto exportaciones' : 'Operaciones no gravadas y exentas',
         }
     Texto_a_reemplazar = ' **** SIN CAE ni PEM ****'
+
 
     # Arreglar Ventas
     # Realizar los reemplazos de 'operaciones con... '
@@ -95,8 +94,7 @@ for i in range(len(df)):
     # reemplazar 'Consumidores finales, Exentos y No alcanzados' y 'Monotributistas' por 'Sujetos Exentos, No Alcanzados, Monotributistas y Consumidores Finales'
     reemplazosncv ={
         'Consumidores finales, Exentos y No alcanzados' : 'Sujetos Exentos, No Alcanzados, Monotributistas y Consumidores Finales',
-        'Monotributistas' : 'Sujetos Exentos, No Alcanzados, Monotributistas y Consumidores Finales',
-        'Compra de bienes en el mercado local' : 'compras de bienes en el mercado local'
+        'Monotributistas' : 'Sujetos Exentos, No Alcanzados, Monotributistas y Consumidores Finales'
     } 
     Df_T_NCVentas['Operaciones con...'] = Df_T_NCVentas['Operaciones con...'].replace(reemplazosncv , regex=True)
     # Eliminar de la columna 'Operaciones con...' todo lo anteior al primer punto
@@ -106,11 +104,13 @@ for i in range(len(df)):
     # Sumar las operaciones que tengan el mismo concepto y tasa de IVA
     Df_T_NCVentas = Df_T_NCVentas.groupby(['Operaciones con...' , 'Tasa IVA']).sum(numeric_only=False).reset_index()
 
+
     # Listar los Dataframes
     Dataframes = [Df_T_Compras, Df_T_NCCompras, Df_T_Ventas, Df_T_NCVentas]
 
     # Reemplazos de valores
     reemplazos = {
+        0.00: 'I.V.A. al 0,00%',
         0.21: 'I.V.A. al 21,00%',
         0.105: 'I.V.A. al 10,50%',
         0.27: 'I.V.A. al 27,00%',
